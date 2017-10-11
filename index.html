@@ -1,0 +1,42 @@
+# chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("button").mousedown(function(e) {
+                e.preventDefault();
+                
+                $.ajax({
+                    type: "GET",
+                    url: "http://192.168.1.72",
+                    data: {
+                        id: $(this).val(),
+                        access_token: $("#access_token").val() 
+                    }
+                });
+            });            
+            $("button").mouseup(function(e) {
+                e.preventDefault();
+                
+                $.ajax({
+                    type: "POST",
+                    url: "http://192.168.1.72",
+                    data: {
+                        id: $(this).val(),
+                        access_token: $("#access_token").val() 
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <form method="GET">
+        <button id="button_1" value="+"> + </button>
+        <button id="button_2" value="-"> - </button>
+    </form>
+</body>
+</html>
