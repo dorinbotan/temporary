@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="stylesheet.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#button_1").mousedown(function(e) {
+                e.preventDefault();
+                
+                $.ajax({
+                    type: "GET",
+                    url: "http://192.168.87.112",
+                    data: {
+                        id: $(this).val(),
+                        access_token: $("#access_token").val() 
+                    }
+                });
+            });            
+            $("#button_1").mouseup(function(e) {
+                e.preventDefault();
+                
+                $.ajax({
+                    type: "POST",
+                    url: "http://192.168.87.112",
+                    data: {
+                        id: $(this).val(),
+                        access_token: $("#access_token").val() 
+                    }
+                });
+            });
+            
+            $("#button_2").mousedown(function(e) {
+                e.preventDefault();
+                
+                $.ajax({
+                    type: "GET",
+                    url: "http://192.168.87.112",
+                    data: {
+                        id: $(this).val(),
+                        access_token: $("#access_token").val() 
+                    }
+                });
+                
+//                $.get( "ajax/test.html", function( data ) {
+//                    $( ".result" ).html( data );
+//                    alert( "Load was performed." );
+//                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <form method="GET">
+        <button class="button" id="button_1" value="+"> + </button>
+        <button class="button" id="button_2" value="-"> - </button>
+    </form>
+    
+    <div class="separator"></div>
+    
+    <form method="GET">
+        <button class="button" id="button_3" value="+"> + </button>
+        <button class="button" id="button_4" value="-"> - </button>
+    </form>
+</body>
+</html>
