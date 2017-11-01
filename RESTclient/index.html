@@ -1,66 +1,144 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="stylesheet.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-            $("#button_1").mousedown(function(e) {
-                e.preventDefault();
-                
+            $("#zoom").keypress(function(e) {
+                if (e.which == 13) {
+                    $.ajax({
+                        type: "PUT",
+                        url: "http://192.168.1.54/magnification",
+                        data: JSON.stringify({"value" : $("#zoom").val() })
+                    });
+                }
+            });
+            $("#button_zoom_p").mousedown(function(e) {
+                e.preventDefault();                
                 $.ajax({
-                    type: "GET",
-                    url: "http://192.168.87.112",
-                    data: {
-                        id: $(this).val(),
-                        access_token: $("#access_token").val() 
-                    }
+                    type: "PUT",
+                    url: "http://192.168.1.54/magnification",
+                    data: JSON.stringify({"value" : "+" })
                 });
             });            
-            $("#button_1").mouseup(function(e) {
+            $("#button_zoom_p").mouseup(function(e) {
                 e.preventDefault();
-                
                 $.ajax({
-                    type: "POST",
-                    url: "http://192.168.87.112",
-                    data: {
-                        id: $(this).val(),
-                        access_token: $("#access_token").val() 
+                    type: "PUT",
+                    url: "http://192.168.1.54/magnification",
+                    data: JSON.stringify({"value" : "" })
+                });
+            });          
+            $("#button_zoom_-").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "PUT",
+                    url: "http://192.168.1.54/magnification",
+                    data: JSON.stringify({"value" : "-" })
+                });
+            });
+            $("#button_zoom_-").mouseup(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "PUT",
+                    url: "http://192.168.1.54/magnification",
+                    data: JSON.stringify({"value" : "" })
+                });
+            }); 
+            $("#button_zoom_g").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "GET",
+                    url: "http://192.168.1.54/magnification",
+                    success: function(data) {
+                        alert(data);
                     }
                 });
             });
             
-            $("#button_2").mousedown(function(e) {
+            $("#focus").keypress(function(e) {
+                if (e.which == 13) {
+                    $.ajax({
+                        type: "PUT",
+                        url: "http://192.168.1.54/focus",
+                        data: JSON.stringify({"value" : $("#focus").val() })
+                    });
+                }
+            });
+            $("#button_focus_g").mousedown(function(e) {
                 e.preventDefault();
-                
                 $.ajax({
                     type: "GET",
-                    url: "http://192.168.87.112",
-                    data: {
-                        id: $(this).val(),
-                        access_token: $("#access_token").val() 
+                    url: "http://192.168.1.54/focus",
+                    success: function(data) {
+                        alert(data);
                     }
                 });
-                
-//                $.get( "ajax/test.html", function( data ) {
-//                    $( ".result" ).html( data );
-//                    alert( "Load was performed." );
-//                });
+            });      
+            
+            $("#button_LED_on").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "PUT",
+                    url: "http://192.168.1.54/LED",
+                    data: JSON.stringify({"value" : "on" })
+                });
+            });   
+            $("#button_LED_off").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "PUT",
+                    url: "http://192.168.1.54/LED",
+                    data: JSON.stringify({"value" : "off" })
+                });
+            });
+            $("#button_LED_toggle").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "PUT",
+                    url: "http://192.168.1.54/LED",
+                    data: JSON.stringify({"value" : "toggle" })
+                });
+            });
+            
+            $("#button_beep").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "GET",
+                    url: "http://192.168.1.54/beep",
+                });
             });
         });
     </script>
 </head>
 <body>
-    <form method="GET">
-        <button class="button" id="button_1" value="+"> + </button>
-        <button class="button" id="button_2" value="-"> - </button>
-    </form>
+    <form>
+        Zoom: <input type="number" id="zoom"><br><br>
+        <button class="button" id="button_zoom_p"> + </button>
+        <button class="button" id="button_zoom_-"> - </button>
+        <button class="button" id="button_zoom_g"> G </button>
+    </form><br>
     
+    <form>
+        Focus: <input type="number" id="focus"><br><br>
+        <button class="button" id="button_focus_g"> G </button>
+    </form><br>
+    
+    <form>
+        LED:<br><br>
+        <button class="button" id="button_LED_on"> On </button>
+        <button class="button" id="button_LED_off"> Off </button>
+        <button class="button" id="button_LED_toggle"> X </button>
+    </form><br>
+    
+    <form>
+        Beep:<br><br>
+        <button class="button" id="button_beep">  </button>
+    </form><br>
+    
+<!--
     <div class="separator"></div>
-    
-    <form method="GET">
-        <button class="button" id="button_3" value="+"> + </button>
-        <button class="button" id="button_4" value="-"> - </button>
-    </form>
+-->
 </body>
 </html>
