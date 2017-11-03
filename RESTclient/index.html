@@ -5,108 +5,203 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
+            // Zoom
             $("#zoom").keypress(function(e) {
                 if (e.which == 13) {
                     $.ajax({
                         type: "PUT",
-                        url: "http://192.168.1.54/magnification",
-                        data: JSON.stringify({"value" : $("#zoom").val() })
+                        url: "http://192.168.1.54/zoom",
+                        data: JSON.stringify({ value:$("#zoom").val() })
                     });
                 }
             });
-            $("#button_zoom_p").mousedown(function(e) {
-                e.preventDefault();                
-                $.ajax({
-                    type: "PUT",
-                    url: "http://192.168.1.54/magnification",
-                    data: JSON.stringify({"value" : "+" })
-                });
-            });            
-            $("#button_zoom_p").mouseup(function(e) {
+            $("#button_zoom").mousedown(function(e) {
                 e.preventDefault();
                 $.ajax({
-                    type: "PUT",
-                    url: "http://192.168.1.54/magnification",
-                    data: JSON.stringify({"value" : "" })
-                });
-            });          
-            $("#button_zoom_-").mousedown(function(e) {
-                e.preventDefault();
-                $.ajax({
-                    type: "PUT",
-                    url: "http://192.168.1.54/magnification",
-                    data: JSON.stringify({"value" : "-" })
+                    type: "GET",
+                    url: "http://192.168.1.54/zoom",
+                    success: function(data) {
+                        $("#text_zoom").html(data);
+                    }
                 });
             });
-            $("#button_zoom_-").mouseup(function(e) {
+            // Zoom lock
+            $("#zoom_lock").keypress(function(e) {
+                if (e.which == 13) {
+                    $.ajax({
+                        type: "PUT",
+                        url: "http://192.168.1.54/zoom/lock",
+                        data: JSON.stringify({ value:$("#zoom_lock").val() })
+                    });
+                }
+            });
+            $("#button_zoom_lock").mousedown(function(e) {
                 e.preventDefault();
                 $.ajax({
-                    type: "PUT",
-                    url: "http://192.168.1.54/magnification",
-                    data: JSON.stringify({"value" : "" })
+                    type: "GET",
+                    url: "http://192.168.1.54/zoom/lock",
+                    success: function(data) {
+                        $("#text_zoom_lock").html(data);
+                    }
                 });
-            }); 
-            $("#button_zoom_g").mousedown(function(e) {
+            });
+            $("#button_zoom_lock_set").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "http://192.168.1.54/zoom/lock"
+                });
+            });
+            $("#button_zoom_lock_unset").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "DELETE",
+                    url: "http://192.168.1.54/zoom/lock"
+                });
+            });
+            // Magnification
+            $("#mag").keypress(function(e) {
+                if (e.which == 13) {
+                    $.ajax({
+                        type: "PUT",
+                        url: "http://192.168.1.54/magnification",
+                        data: JSON.stringify({"value" : $("#mag").val() })
+                    });
+                }
+            });
+            $("#button_mag").mousedown(function(e) {
                 e.preventDefault();
                 $.ajax({
                     type: "GET",
                     url: "http://192.168.1.54/magnification",
                     success: function(data) {
-                        alert(data);
+                        $("#text_mag").html(data);
                     }
                 });
             });
-            
+            // Focus
             $("#focus").keypress(function(e) {
                 if (e.which == 13) {
                     $.ajax({
                         type: "PUT",
                         url: "http://192.168.1.54/focus",
-                        data: JSON.stringify({"value" : $("#focus").val() })
+                        data: JSON.stringify({ value:$("#focus").val() })
                     });
                 }
             });
-            $("#button_focus_g").mousedown(function(e) {
+            $("#button_focus").mousedown(function(e) {
                 e.preventDefault();
                 $.ajax({
                     type: "GET",
                     url: "http://192.168.1.54/focus",
                     success: function(data) {
-                        alert(data);
+                        $("#text_focus").html(data);
                     }
                 });
-            });      
-            
-            $("#button_LED_on").mousedown(function(e) {
-                e.preventDefault();
-                $.ajax({
-                    type: "PUT",
-                    url: "http://192.168.1.54/LED",
-                    data: JSON.stringify({"value" : "on" })
-                });
-            });   
-            $("#button_LED_off").mousedown(function(e) {
-                e.preventDefault();
-                $.ajax({
-                    type: "PUT",
-                    url: "http://192.168.1.54/LED",
-                    data: JSON.stringify({"value" : "off" })
-                });
             });
-            $("#button_LED_toggle").mousedown(function(e) {
-                e.preventDefault();
-                $.ajax({
-                    type: "PUT",
-                    url: "http://192.168.1.54/LED",
-                    data: JSON.stringify({"value" : "toggle" })
-                });
+            // Autofocus
+            $("#autofocus").keypress(function(e) {
+                if (e.which == 13) {
+                    $.ajax({
+                        type: "PUT",
+                        url: "http://192.168.1.54/focus/auto",
+                        data: JSON.stringify({ value:$("#autofocus").val() })
+                    });
+                }
             });
-            
-            $("#button_beep").mousedown(function(e) {
+            $("#button_autofocus").mousedown(function(e) {
                 e.preventDefault();
                 $.ajax({
                     type: "GET",
-                    url: "http://192.168.1.54/beep",
+                    url: "http://192.168.1.54/focus/auto",
+                    success: function(data) {
+                        $("#text_autofocus").html(data);
+                    }
+                });
+            });
+            $("#button_autofocus_set").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "http://192.168.1.54/focus/auto"
+                });
+            });
+            $("#button_autofocus_unset").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "DELETE",
+                    url: "http://192.168.1.54/focus/auto"
+                });
+            });
+            // LED
+            $("#button_led").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "GET",
+                    url: "http://192.168.1.54/led",
+                    success: function(data) {
+                        $("#text_led").html(data);
+                    }
+                });
+            });
+            $("#button_led_set").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "http://192.168.1.54/led"
+                });
+            });
+            $("#button_led_unset").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "DELETE",
+                    url: "http://192.168.1.54/led"
+                });
+            });
+            $("#button_led_toggle").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "DELETE",
+                    url: "http://192.168.1.54/led"
+                });
+            });
+            // IR
+            $("#button_ir_set").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "http://192.168.1.54/ir"
+                });
+            });
+            $("#button_ir_unset").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "DELETE",
+                    url: "http://192.168.1.54/ir"
+                });
+            });
+            // Flip
+            $("#button_flip_set").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "http://192.168.1.54/flip"
+                });
+            });
+            $("#button_flip_unset").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "DELETE",
+                    url: "http://192.168.1.54/flip"
+                });
+            });
+            // Focusstack
+            $("#button_focusstack").mousedown(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "http://192.168.1.54/focusstack",
+                    data: JSON.stringify({ zoom:11400, minfocus:14500, maxfocus:51000, steps:10 })
                 });
             });
         });
@@ -114,31 +209,55 @@
 </head>
 <body>
     <form>
-        Zoom: <input type="number" id="zoom"><br><br>
-        <button class="button" id="button_zoom_p"> + </button>
-        <button class="button" id="button_zoom_-"> - </button>
-        <button class="button" id="button_zoom_g"> G </button>
+        <button class="button" id="button_zoom"> Zoom </button><br><br>
+        Set: <input type="number" id="zoom"><span id="text_zoom"></span><br><br>
+    </form>
+    
+    <form>
+        <button class="button" id="button_zoom_lock"> Zoom lock </button>
+        <button class="button_short" id="button_zoom_lock_set"> + </button>
+        <button class="button_short" id="button_zoom_lock_unset"> - </button><br><br>
+        Set: <input type="number" id="zoom_lock"><span id="text_zoom_lock"></span><br><br>
     </form><br>
     
     <form>
-        Focus: <input type="number" id="focus"><br><br>
-        <button class="button" id="button_focus_g"> G </button>
+        <button class="button" id="button_mag"> Magnification </button><br><br>
+        Set: <input type="number" id="mag"><span id="text_mag"></span><br><br>
     </form><br>
     
     <form>
-        LED:<br><br>
-        <button class="button" id="button_LED_on"> On </button>
-        <button class="button" id="button_LED_off"> Off </button>
-        <button class="button" id="button_LED_toggle"> X </button>
+        <button class="button" id="button_focus"> Focus </button><br><br>
+        Set: <input type="number" id="focus"><span id="text_focus"></span><br><br>
+    </form>
+    
+    <form>
+        <button class="button" id="button_autofocus"> Autofocus </button>
+        <button class="button_short" id="button_autofocus_set"> + </button>
+        <button class="button_short" id="button_autofocus_unset"> - </button><br><br>
+        Set: <input type="number" id="autofocus"><span id="text_autofocus"></span><br><br>
     </form><br>
     
     <form>
-        Beep:<br><br>
-        <button class="button" id="button_beep">  </button>
+        <button class="button" id="button_led"> LED </button>
+        <button class="button_short" id="button_led_set"> + </button>
+        <button class="button_short" id="button_led_unset"> - </button>
+        <button class="button_short" id="button_led_toggle"> toggle </button><br><br>
     </form><br>
     
-<!--
-    <div class="separator"></div>
--->
+    <form>
+        <button class="button" id="button_ir"> IR-filter </button>
+        <button class="button_short" id="button_ir_set"> + </button>
+        <button class="button_short" id="button_ir_unset"> - </button>
+    </form><br><br>
+    
+    <form>
+        <button class="button" id="button_flip"> Flip </button>
+        <button class="button_short" id="button_flip_set"> + </button>
+        <button class="button_short" id="button_flip_unset"> - </button>
+    </form><br><br>
+    
+    <form>
+        <button class="button" id="button_focusstack"> Focus Stack </button>
+    </form><br>
 </body>
 </html>

@@ -1,9 +1,16 @@
-.separator {
-    height: 20px
+form {
+/*    background-color: aqua;*/
+    display: inline-block;
 }
 
 .button {
+    width: 300px;
+    height: 100px;
+    font-size: 30px;
+}
+
+.button_short {
     width: 100px;
     height: 100px;
-    font-size: 60px;
+    font-size: 30px;
 }
